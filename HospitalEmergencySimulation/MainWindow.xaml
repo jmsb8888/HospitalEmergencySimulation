@@ -23,5 +23,7 @@
         <Label Content="Label" Canvas.Left="590" Canvas.Top="128" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <Button Name="InicarServicio" Content="Button" Canvas.Left="347" Canvas.Top="375" HorizontalAlignment="Left" VerticalAlignment="Center" Click="InitService"/>
         <Label Content="Label" Canvas.Left="589" Canvas.Top="103"/>
+        <Label Content="Label" Canvas.Left="496" Canvas.Top="126"/>
+        <Button Content="Button" Canvas.Left="349" Canvas.Top="401" Click="TerminateService"/>
     </Canvas>
 </Window>
