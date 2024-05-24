@@ -1,3 +1,4 @@
+using HospitalEmergencySimulation.Model;
 using System.Windows;
 
 [assembly: ThemeInfo(
