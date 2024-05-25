@@ -6,24 +6,34 @@
         xmlns:local="clr-namespace:HospitalEmergencySimulation"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Canvas x:Name="canvas">
-        <Button x:Name="d" Content="Button" Canvas.Left="346" Canvas.Top="343" Click="myButton_Click"/>
-        <Label />
-        <Label Name="myLabel" Content="Label" Canvas.Left="535" Canvas.Top="350" Height="53" Width="203"/>
-        <Image Name="ServerOne" Height="100" Width="100" Canvas.Left="119" Canvas.Top="10"/>
-        <Image Name="ServerTwo" Height="100" Canvas.Left="338" Canvas.Top="10" Width="100"/>
-        <Image Name="ServerThree" Height="100" Canvas.Left="561" Canvas.Top="10" Width="100"/>
-        <Label Content="Label" Canvas.Left="11" Canvas.Top="177"/>
-        <Label Content="Label" Canvas.Left="100" Canvas.Top="242"/>
-        <Label Content="Label" Canvas.Left="691" Canvas.Top="183" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Label Content="Label" Canvas.Left="749" Canvas.Top="244"/>
-        <Label Content="Label" Canvas.Left="749" Canvas.Top="182"/>
-        <Label Content="Label" Canvas.Left="148" Canvas.Top="130" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.164,0.454"/>
-        <Label Content="Label" Canvas.Left="380" Canvas.Top="132"/>
-        <Label Content="Label" Canvas.Left="590" Canvas.Top="128" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Button Name="InicarServicio" Content="Button" Canvas.Left="347" Canvas.Top="375" HorizontalAlignment="Left" VerticalAlignment="Center" Click="InitService"/>
-        <Label Content="Label" Canvas.Left="589" Canvas.Top="103"/>
-        <Label Content="Label" Canvas.Left="496" Canvas.Top="126"/>
-        <Button Content="Button" Canvas.Left="349" Canvas.Top="401" Click="TerminateService"/>
-    </Canvas>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        
+            <!-- Canvas -->
+           
+                <Canvas x:Name="canvas">
+                <Button x:Name="d" Content="Button" Canvas.Left="346" Canvas.Top="343" Click="myButton_Click"/>
+                <Label />
+                <Label Name="myLabel" Content="Label" Canvas.Left="535" Canvas.Top="350" Height="53" Width="203"/>
+                <Image Name="ServerOne" Height="100" Width="100" Canvas.Left="119" Canvas.Top="10"/>
+                <Image Name="ServerTwo" Height="100" Canvas.Left="338" Canvas.Top="10" Width="100"/>
+                <Image Name="ServerThree" Height="100" Canvas.Left="561" Canvas.Top="10" Width="100"/>
+                <Label Content="Label" Canvas.Left="11" Canvas.Top="177"/>
+                <Label Content="Label" Canvas.Left="100" Canvas.Top="242"/>
+                <Label Content="Label" Canvas.Left="691" Canvas.Top="183" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label Content="Label" Canvas.Left="749" Canvas.Top="244"/>
+                <Label Content="Label" Canvas.Left="749" Canvas.Top="182"/>
+                <Label Content="Label" Canvas.Left="148" Canvas.Top="130" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.164,0.454"/>
+                <Label Content="Label" Canvas.Left="380" Canvas.Top="132"/>
+                <Label Content="Label" Canvas.Left="590" Canvas.Top="128" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Button Name="InicarServicio" Content="Button" Canvas.Left="347" Canvas.Top="375" HorizontalAlignment="Left" VerticalAlignment="Center" Click="InitService"/>
+                <Label Content="Label" Canvas.Left="589" Canvas.Top="103"/>
+                <Label Content="Label" Canvas.Left="496" Canvas.Top="126"/>
+                <Button Content="Button" Canvas.Left="349" Canvas.Top="401" Click="TerminateService"/>
+                <Button Content="Button" Height="21" Width="140" Canvas.Left="168" Canvas.Top="354" />
+                <Label  Name="myLabe" Content="Label" RenderTransformOrigin="-0.237,2.253" Canvas.Left="457" Canvas.Top="331"/>
+                <Button Content="Button" Height="21" Width="140" Canvas.Left="168" Canvas.Top="354" Click="ViewTables"/>
+            </Canvas>
+         
+
+    </ScrollViewer>
 </Window>

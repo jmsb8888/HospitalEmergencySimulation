@@ -1,0 +1,49 @@
+﻿<Window x:Class="HospitalEmergencySimulation.ViewTables"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HospitalEmergencySimulation"
+        mc:Ignorable="d"
+        Title="ViewTables" Height="450" Width="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <DataGrid  Background="#ede4d3" Grid.Column="1" Grid.Row="5" x:Name="ResultsForTimeDataGrid" AutoGenerateColumns="False" Margin="10,10,10,10" Width="auto" Height="Auto"
+                  IsReadOnly="True"  FontSize="18" ScrollViewer.CanContentScroll="True" HorizontalScrollBarVisibility="Auto">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tiempo" Binding="{Binding TimeSimulation}" Width="*"/>
+                <DataGridTextColumn Header="IdDoctor" Binding="{Binding IdDoctor, StringFormat={}{0:F5}}" Width="*" />
+                <DataGridTextColumn Header="ocupado" Binding="{Binding IsOccupied, StringFormat={}{0:F5}}" Width="*"/>
+                <DataGridTextColumn Header="Tiempo" Binding="{Binding Time, StringFormat={}{0:F5}}" Width="*"/>
+                <DataGridTextColumn Header="Idpaciente" Binding="{Binding IdPatient, StringFormat={}{0:F5}}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Background="#ede4d3" Grid.Column="1" Grid.Row="5" x:Name="ResultsPatient" AutoGenerateColumns="False" Margin="10,10,10,10" Width="auto" Height="Auto"
+                    IsReadOnly="True"  FontSize="18" ScrollViewer.CanContentScroll="True" >
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tiempo Simulación" Binding="{Binding TimeSimulation}" Width="*"/>
+                <DataGridTextColumn Header="IdDoctor" Binding="{Binding IdDoctor}" Width="*" />
+                <DataGridTextColumn Header="IdPaciente" Binding="{Binding IdPatient}" Width="*"/>
+                <DataGridTextColumn Header="Atendido" Binding="{Binding IsAttended}" Width="*"/>
+                <DataGridTextColumn Header="Tiempo Servicio" Binding="{Binding ServiceTime}" Width="*"/>
+                <DataGridTextColumn Header="Tiempo Faltante" Binding="{Binding MissingServiceTime}" Width="*"/>
+                <DataGridTextColumn Header="Hora Llegada" Binding="{Binding TimeOfArrival}" Width="*"/>
+                <DataGridTextColumn Header="Hora Salida" Binding="{Binding TimeOfExit}" Width="*"/>
+                <DataGridTextColumn Header="Finalizado" Binding="{Binding FinishedAttended}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+            <Label Content="Label" Name="dau"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

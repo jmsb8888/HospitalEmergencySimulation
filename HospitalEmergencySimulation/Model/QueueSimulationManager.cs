@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Packaging;
 using System.Linq;
 using System.Text;
@@ -21,22 +22,45 @@ namespace HospitalEmergencySimulation.Model
         List<Patient> PatientsTreatedHighPriority = new List<Patient>();
         List<Patient> PatientsTreatedLowPriority = new List<Patient>();
         List<Doctor> doctors = new List<Doctor>();
-        
-        public QueueSimulationManager() 
+        ObservableCollection<ResultsForTime> resultsForTimes = new ObservableCollection<ResultsForTime>();
+
+        private int minimumAttentionTimeHighPriority;
+        private int maximumAttentionTimeHighPriority;
+        private int minimumAttentionTimeLowPriority;
+        private int maximumAttentionTimeLowPriority;
+        private int lambdaArrivalHighPrority;
+        private int lambdaArrivalLowPrority;
+        private int numberArrivalIntervals;
+        public QueueSimulationManager(int minimumAttentionTimeHighPriority, int maximumAttentionTimeHighPriority, int minimumAttentionTimeLowPriority, int maximumAttentionTimeLowPriority,
+                                      int lambdaArrivalHighPrority, int lambdaArrivalLowPrority, int numberArrivalIntervals) 
         {
+            this.minimumAttentionTimeHighPriority = minimumAttentionTimeHighPriority;
+            this.maximumAttentionTimeHighPriority=maximumAttentionTimeHighPriority;
+            this.minimumAttentionTimeLowPriority = minimumAttentionTimeLowPriority;
+            this.maximumAttentionTimeLowPriority=maximumAttentionTimeLowPriority;
+            this.lambdaArrivalHighPrority = lambdaArrivalHighPrority;
+            this.lambdaArrivalLowPrority = lambdaArrivalLowPrority;
+            this.numberArrivalIntervals = numberArrivalIntervals;
             NumberOfPatients =0;
-            TotalArrivalTime = 20;
+            TotalArrivalTime = 5;
             TimeTraveled = 0;
             CurrentSimulationTime = 0;
             createDoctors(3);
-            init();
+           // init();
         }
+        public ObservableCollection<ResultsForTime> GetResultForTimes()
+        {
+            return this.resultsForTimes;
+        }
+
         public void init()
         {
-
-            while (CurrentSimulationTime <= TotalArrivalTime)
+            if (CurrentSimulationTime <= TotalArrivalTime)
             {
                 CurrentSimulationTime++;
+                ResultsForTime resultsForTime = new ResultsForTime();
+                resultsForTime.Time = CurrentSimulationTime-1;
+                resultsForTimes.Add(resultsForTime);
                 GenerateLowPriorityQueue();
                 GenerateHighPriorityQueue(CurrentSimulationTime);
                 ManageCustomerService();
@@ -68,8 +92,35 @@ namespace HospitalEmergencySimulation.Model
                     }
                 }
             }
-            while (HighPriorityQueue.Count > 0 || LowPriorityQueue.Count > 0)
+         
+            /*
+            int num = 1;
+            while (num == 1)
             {
+                num = 
+            }
+            for (int i = 0;i < 20;i++)
+            {
+                
+            }
+            for (int i = 0; i < 20; i++)
+            {
+                asignartiempoServicio();
+                
+            }
+            Boolean f = true;
+            
+            {
+                atencionBaja();
+              //  f= checkatencionBAja();
+            }*/
+
+
+        }
+        public void FinishAttention ()
+        {
+            if(HighPriorityQueue.Count > 0 || LowPriorityQueue.Count > 0)
+            { 
                 ManageCustomerService();
                 Console.WriteLine(CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime);
                 foreach (Doctor doctor in doctors)
@@ -99,29 +150,6 @@ namespace HospitalEmergencySimulation.Model
                     }
                 }
             }
-            /*
-            int num = 1;
-            while (num == 1)
-            {
-                num = 
-            }
-            for (int i = 0;i < 20;i++)
-            {
-                
-            }
-            for (int i = 0; i < 20; i++)
-            {
-                asignartiempoServicio();
-                
-            }
-            Boolean f = true;
-            
-            {
-                atencionBaja();
-              //  f= checkatencionBAja();
-            }*/
-
-
         }
         public void PrintLists()
         {
@@ -172,6 +200,8 @@ namespace HospitalEmergencySimulation.Model
             Patient patient = new Patient(NumberOfPatients, priority);
             patient.TimeOfArrival = timeArrival;
             AssignSeriviceTime(patient);
+            var register = resultsForTimes.FirstOrDefault(r => r.Time == CurrentSimulationTime-1);
+            register.PatientsInSystem.Add(patient);
             queue.Add(patient);
         }
 
@@ -243,6 +273,8 @@ namespace HospitalEmergencySimulation.Model
                         
                     }
                 }
+                var register = resultsForTimes.FirstOrDefault(r => r.Time == CurrentSimulationTime - 1);
+                register.Doctors.Add(doctor);
             }
         }
             
@@ -253,6 +285,7 @@ namespace HospitalEmergencySimulation.Model
             bool IsCheck = false;
             if (queue.Count > 0)
             {
+                var register = resultsForTimes.FirstOrDefault(r => r.Time == CurrentSimulationTime - 1);
                 for (int i = 0; i < queue.Count; i++)
                 {
                     isCheckPatient = false;
@@ -265,12 +298,16 @@ namespace HospitalEmergencySimulation.Model
                         patient.IdDoctor = doctor.IdDoctor;
                         doctor.IsOccupied = true;
                         isOccuped = true;
+                        register.PatientsInSystem.FirstOrDefault(c => c.IdPatient == patient.IdPatient).IdDoctor = patient.IdDoctor;
+                        register.PatientsInSystem.FirstOrDefault(c => c.IdPatient == patient.IdPatient).IsAttended = patient.IsAttended;
+
                         break;
                     }
                     else if (patient.IdDoctor == doctor.IdDoctor && patient.IsAttended && patient.MissingServiceTime > 0)
                     {
                         patient.MissingServiceTime -= 1;
                         isCheckPatient = true;
+                        //register.PatientsInSystem.FirstOrDefault(c => c.IdPatient == patient.IdPatient).MissingServiceTime = patient.MissingServiceTime;
                         //IsCheck = true;
 
                     }
@@ -282,12 +319,14 @@ namespace HospitalEmergencySimulation.Model
                         {
                             Console.WriteLine("************************************************************");
                             PatientsTreatedHighPriority.Add(patient);
+                            register.PatientsInSystem.FirstOrDefault(c => c.IdPatient == patient.IdPatient).FinishedAttended = true;
                             HighPriorityQueue.Remove(patient);
                         }
                         else
                         {
                             Console.WriteLine("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
                             PatientsTreatedLowPriority.Add(patient);
+                            register.PatientsInSystem.FirstOrDefault(c => c.IdPatient == patient.IdPatient).FinishedAttended = true;
                             LowPriorityQueue.Remove(patient);
                         }
                         

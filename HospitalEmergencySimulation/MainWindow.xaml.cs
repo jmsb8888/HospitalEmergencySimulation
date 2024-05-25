@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using HospitalEmergencySimulation.Controller;
+using HospitalEmergencySimulation.Model;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reflection.Emit;
 using System.Text;
 using System.Windows;
@@ -34,9 +37,10 @@ namespace HospitalEmergencySimulation
         private System.Windows.Controls.Image lastImageLowPriority = null;
         private System.Windows.Controls.Image lastPatient = null;
         int positionInitialLowPriority = 242;
-
-        public MainWindow()
+         ControllerSimulation controller;
+        public MainWindow(ControllerSimulation controller)
         {
+            this.controller = controller;
             InitializeComponent();
             coordinateHighPriority.Add(new Tuple<double, double>(0, 300));
             coordinateLowPriority.Add(new Tuple<double, double>(0, 300));
@@ -44,6 +48,7 @@ namespace HospitalEmergencySimulation
             ServerTwo.Source = new BitmapImage(new Uri("C:\\Users\\Jmsb-\\OneDrive\\Escritorio\\TallerElectivaIIUsers\\Proyecto_simulacion\\HospitalEmergencySimulation\\HospitalEmergencySimulation\\file (2).png"));
             ServerThree.Source = new BitmapImage(new Uri("C:\\Users\\Jmsb-\\OneDrive\\Escritorio\\TallerElectivaIIUsers\\Proyecto_simulacion\\HospitalEmergencySimulation\\HospitalEmergencySimulation\\file (3).png"));
         }
+       
         public void CreatePatient(double seconds)
         {
             /*// Cambia esto al número de segundos que quieres esperar
@@ -512,5 +517,15 @@ namespace HospitalEmergencySimulation
                 timer.Stop();
             }
         }
+        
+        public void ViewTables(object sender, RoutedEventArgs e)
+        {
+            ObservableCollection<ResultsForTime> data = controller.GetResults();
+            myLabe.Content = "envio " + data.Count;
+            ViewTables viewTables = new ViewTables(data);
+            viewTables.Show();
+
+        }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HospitalEmergencySimulation.Model
 {
-    internal class Distributions
+    public class Distributions
     {
         public int PoissonInverseTransform(double Ri, double lam)
         {
