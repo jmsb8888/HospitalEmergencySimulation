@@ -30,6 +30,13 @@ namespace HospitalEmergencySimulation
         List<Tuple<double, double>> coordinateHighPriority = new List<Tuple<double, double>>();
         List<Tuple<double, double>> coordinateLowPriority = new List<Tuple<double, double>>();
         ObservableCollection<ResultsForTime> resultsForTime = new ObservableCollection<ResultsForTime>();
+        List<FormatPatient> formatPatientsHighPriority = new List<FormatPatient>();
+        List<FormatPatient> formatPatientsLowPriorty = new List<FormatPatient>();
+        List<FormatPatient> formatPatienttAll = new List<FormatPatient>();
+        List<FormarDataDoctor> DataDoctor = new List<FormarDataDoctor>();
+        Dictionary<int, FormatServers> servers = new Dictionary<int, FormatServers>();
+
+
         int countHiPriority = 0;
         int countLowPriority = 0;
         int gdf = 177;
@@ -41,9 +48,14 @@ namespace HospitalEmergencySimulation
         int positionInitialLowPriority = 242;
         int QuantityPatientientsHigh = 0;
         int QuantityPatientientsLow = 0;
+        int countHigh = 0;
+        int countLow = 0;
+        Boolean IsMovementHigh = false;
+        Boolean IsMovementLow = false;
         HashSet<int> patientsIdHigh = new HashSet<int>();
         HashSet<int> patientsIdLow = new HashSet<int>();
-         ControllerSimulation controller;
+        HashSet<int> Quantity = new HashSet<int>();
+        ControllerSimulation controller;
         public MainWindow(ControllerSimulation controller)
         {
             this.controller = controller;
@@ -53,17 +65,30 @@ namespace HospitalEmergencySimulation
             ServerOne.Source = new BitmapImage(new Uri("C:\\Users\\Jmsb-\\OneDrive\\Escritorio\\TallerElectivaIIUsers\\Proyecto_simulacion\\HospitalEmergencySimulation\\HospitalEmergencySimulation\\file (1).png"));
             ServerTwo.Source = new BitmapImage(new Uri("C:\\Users\\Jmsb-\\OneDrive\\Escritorio\\TallerElectivaIIUsers\\Proyecto_simulacion\\HospitalEmergencySimulation\\HospitalEmergencySimulation\\file (2).png"));
             ServerThree.Source = new BitmapImage(new Uri("C:\\Users\\Jmsb-\\OneDrive\\Escritorio\\TallerElectivaIIUsers\\Proyecto_simulacion\\HospitalEmergencySimulation\\HospitalEmergencySimulation\\file (3).png"));
-        }
-       
-        public async void myButton_Click(object sender, RoutedEventArgs e)
-        {
-
             resultsForTime = controller.GetResults();
-             
-            int count = 0;
-            List<FormatPatient> formatPatientsHighPriority = new List<FormatPatient>();
-            List<FormatPatient> formatPatientsLowPriorty = new List<FormatPatient>();
-            List<FormarDataDoctor> DataDoctor = new List<FormarDataDoctor>();
+            servers[1] = new FormatServers
+            {
+                Coordinate = 148,
+                IsOcupped = false,
+            };
+            servers[2] = new FormatServers
+            {
+                Coordinate = 380,
+                IsOcupped = false,
+            };
+            servers[3] = new FormatServers
+            {
+                Coordinate = 590,
+                IsOcupped = false,
+            };
+            foreach (ResultsForTime r in resultsForTime)
+            {
+                Quantity.Add(r.Time);
+            }
+
+        }
+        public void loadDataForTime(int count)
+        {
             foreach (ResultsForTime result in resultsForTime)
             {
                 foreach (Patient result2 in result.PatientsInSystem)
@@ -84,21 +109,21 @@ namespace HospitalEmergencySimulation
                             Priority = result2.Priority,
                             TimeWait = result2.TimeWait,
                         };
-                        
-                        if (aux.Priority == 1 )
+
+                        if (aux.Priority == 1)
                         {
                             formatPatientsHighPriority.Add(aux);
                             patientsIdHigh.Add(aux.IdPatient);
                         }
-                        else if(aux.Priority == 0 )
+                        else if (aux.Priority == 0)
                         {
                             formatPatientsLowPriorty.Add(aux);
                             patientsIdLow.Add(aux.IdPatient);
                         }
-                        
+                        formatPatienttAll.Add(aux);
+
                     }
                 }
-                
                 foreach (Doctor result2 in result.Doctors)
                 {
                     FormarDataDoctor aux = new FormarDataDoctor
@@ -112,74 +137,66 @@ namespace HospitalEmergencySimulation
                     DataDoctor.Add(aux);
                 }
             }
-            count++;
-            myLabel.Content = "hay ALta " + formatPatientsHighPriority.Count + " hay baja " + formatPatientsLowPriorty.Count;
-            QuantityPatientientsHigh = 5;
-            QuantityPatientientsLow =5;
-            /*  DispatcherTimer timerr = new DispatcherTimer();
-              timerr.Interval = TimeSpan.FromSeconds(3.5);
-              timerr.Tick += (s, y) =>
-              {
-                  CreatePatient(3.5);
-                  TerminateServicePatiente("LowPriority", 148);
-                  attend("LowPriority", 148);
-                  AdvanceQueue("LowPriority");
-              };*/
-            // Crear el primer temporizador
-            DispatcherTimer timer1 = new DispatcherTimer();
-            timer1.Interval = TimeSpan.FromSeconds(3.5);
-            timer1.Tick += (s, y) =>
+        }
+
+        public async void myButton_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            int count = 0;
+            while (count <= Quantity.Count)
             {
-                // Ejecutar el primer método
-                CreatePatient(3.5);
+                loadDataForTime(count);
 
-                // Detener el primer temporizador
-                timer1.Stop();
+                QuantityPatientientsHigh = patientsIdHigh.Count;
+                QuantityPatientientsLow = patientsIdLow.Count;
 
-                double d = 3.5 * QuantityPatientientsHigh;
-                // Crear e iniciar el segundo temporizador dentro del primer temporizador
-                DispatcherTimer timer2 = new DispatcherTimer();
-                timer2.Interval = TimeSpan.FromSeconds(d); // Ajusta este valor según tus necesidades
-                timer2.Tick += (s, z) =>
+
+                myLabe.Content = "hay ALta " + formatPatientsHighPriority.Count + " hay baja " + formatPatientsLowPriorty.Count;
+
+                /*  DispatcherTimer timerr = new DispatcherTimer();
+                  timerr.Interval = TimeSpan.FromSeconds(3.5);
+                  timerr.Tick += (s, y) =>
+                  {
+                      CreatePatient(3.5);
+                      TerminateServicePatiente("LowPriority", 148);
+                      attend("LowPriority", 148);
+                      AdvanceQueue("LowPriority");
+                  };*/
+                // Crear el primer temporizador
+                DispatcherTimer timer1 = new DispatcherTimer();
+                timer1.Interval = TimeSpan.FromSeconds(3.5);
+                timer1.Tick += async (s, y) =>
                 {
-                    // Ejecutar el segundo método
-                    attend("LowPriority", 148);
+                    // Ejecutar el primer método
+                    CreatePatient(3.5);
 
-                    // Detener el segundo temporizador
-                    timer2.Stop();
+                    // Detener el primer temporizador
+                    timer1.Stop();
 
-                    double ss = d +2;
+                    double d = 3.5 * 3;
                     // Crear e iniciar el segundo temporizador dentro del primer temporizador
-                    DispatcherTimer timer3 = new DispatcherTimer();
-                    timer3.Interval = TimeSpan.FromSeconds(ss); // Ajusta este valor según tus necesidades
-                    timer3.Tick += (s, z) =>
+                    DispatcherTimer timer2 = new DispatcherTimer();
+                    timer2.Interval = TimeSpan.FromSeconds(d); // Ajusta este valor según tus necesidades
+
+                    timer2.Tick += async (s, z) =>
                     {
                         // Ejecutar el segundo método
+                        StartService();
 
-                        AdvanceQueue("LowPriority");
                         // Detener el segundo temporizador
-                        timer3.Stop();
-                        double sss = ss +5;
-                        DispatcherTimer timer4 = new DispatcherTimer();
-                        timer4.Interval = TimeSpan.FromSeconds(sss); // Ajusta este valor según tus necesidades
-                        timer4.Tick += (s, z) =>
-                        {
-                            // Ejecutar el segundo método
-                            TerminateServicePatiente("ALowPriority", 148);
+                        timer2.Stop();
 
-                            // Detener el segundo temporizador
-                            timer4.Stop();
-
-                        };
-                        timer4.Start();
+                        double ss = d + 2;
                     };
-                    timer3.Start();
-
+                    timer2.Start();
                 };
-                timer2.Start();
-            };
-            timer1.Start();
+                timer1.Start();
 
+                await Task.Delay(TimeSpan.FromSeconds(3.5 + 3.5 * 3 + 2));
+                count++;
+
+            }
 
             /*
                 CreatePatient(3.5);
@@ -203,27 +220,105 @@ namespace HospitalEmergencySimulation
             {
                 timer = new DispatcherTimer();
                 timer.Interval = TimeSpan.FromSeconds(seconds);
-                timer.Tick += Timer_Tick;
-                timer.Tick += Timer_Low_prority;
+                if (patientsIdHigh.Count > 0)
+                {
+                    timer.Tick += Timer_Tick;
+                }
+                else if (patientsIdLow.Count > 0)
+                {
+                    timer.Tick += Timer_Low_prority;
+                }
             }
 
             // Inicia el temporizador
             timer.Start();
         }
-       /* private void myButton_Click(object sender, RoutedEventArgs e)
+        /* private void myButton_Click(object sender, RoutedEventArgs e)
+         {
+             CreatePatient(3.5);
+         }*/
+        private async void StartService()
         {
-            CreatePatient(3.5);
-        }*/
+            // Filtrar la lista para obtener solo los pacientes que están siendo atendidos
+            // Ordenar la lista por IdPatient
+            List<FormatPatient> orderedPatients = formatPatienttAll
+                .OrderByDescending(p => p.Priority) // Ordenar primero por prioridad 
+                .ThenBy(p => p.TimeOfArrival) // Luego ordenar por tiempo de llegada
+                .ToList();
+            
+            int coundf = 0;
+            
+            myLabe.Content = "entro deberia mover " + coundf;
+            foreach (FormatPatient patient in orderedPatients)
+            {
+
+                myLabe.Content = "entro deberia mover " + 44;
+                if (!patient.IsAttended)
+                {
+                    foreach (KeyValuePair<int, FormatServers> item in servers)
+                    {
+
+                        bool isChanged = false;
+                        //MessageBox.Show("esta ocupado server " + item.Key +" "+ item.Value.IsOcupped + " prioridad " + patient.Priority);
+                        if (!item.Value.IsOcupped && patient.Priority == 1)
+                        {
+                            attend("HighPriority", item.Value.Coordinate);
+                            item.Value.IsOcupped = true;
+                            item.Value.IdPatient = patient.IdPatient;
+                            this.IsMovementHigh = true;
+                            countHigh++;
+                            isChanged = true;
+                        }
+                        else if (!item.Value.IsOcupped && patient.Priority == 0)
+                        {
+                            // MessageBox.Show("id paciente " + patient.IdPatient + " entro a  mover baja");
+                            countLow++;
+                            coundf++;
+                          
+                            this.IsMovementLow = true;
+                            attend("LowPriority", item.Value.Coordinate);
+                            item.Value.IdPatient = patient.IdPatient;
+                            item.Value.IsOcupped = true;
+                            isChanged = true;
+                        }
+                        if (isChanged)
+                        {
+                            MoveRow();
+                            await Task.Delay(TimeSpan.FromSeconds(3.5 * 3 + 2));
+                            
+                        }
+
+                    }
+
+                }
+
+            }
+
+
+        }
+
+        public void MoveRow()
+        {
+            if (IsMovementLow)
+            {
+                AdvanceQueue("LowPriority", 749);
+            }
+            if (IsMovementHigh)
+            {
+                AdvanceQueue("HighPriority", 691);
+            }
+        }
 
         private void InitService(object sender, RoutedEventArgs e)
         {
-           attend("LowPriority", 148); // 590, 380, 148
-                                         //  AdvanceQueue("LowPriority");
+            StartService();
+            // attend("LowPriority", 148); // 590, 380, 148
+            //  AdvanceQueue("LowPriority");
         }
 
         private void TerminateService(object sender, RoutedEventArgs e)
         {
-            TerminateServicePatiente("LowPriority", 148);
+            // TerminateServicePatiente("LowPriority", 148);
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -249,7 +344,7 @@ namespace HospitalEmergencySimulation
                 {
                     From = 0,
                     To = 1,
-                    Duration = TimeSpan.FromSeconds(0.5)
+                    Duration = TimeSpan.FromSeconds(1)
                 };
                 image.BeginAnimation(UIElement.OpacityProperty, aparecer);
 
@@ -297,7 +392,8 @@ namespace HospitalEmergencySimulation
                     }
 
                     positionFinal = isFirst ? Canvas.GetLeft(lastImage) - 30 : 691;
-                    if (positionFinal > 15) {
+                    if (positionFinal > 15)
+                    {
                         // Animación de movimiento horizontal
                         DoubleAnimation moverX = new DoubleAnimation
                         {
@@ -335,26 +431,36 @@ namespace HospitalEmergencySimulation
             }
         }
 
-        public void AdvanceQueue(string namePriority)
+        public void AdvanceQueue(string namePriority, int position)
         {
             foreach (UIElement element in canvas.Children)
             {
 
                 if (element is System.Windows.Controls.Image image && image.Name.StartsWith(namePriority))
                 {
+                    int move = 0;
+                    if (image.Name.StartsWith("LowPriority"))
+                    {
+                        move = countLow;
+                    }
+                    else if (image.Name.StartsWith("HighPriority"))
+                    {
+                        move = countHigh;
+                    }
 
                     if (Canvas.GetTop(image) != 128)
                     {
-                        if(image.Name.StartsWith("LowPriority") && Canvas.GetLeft(image) >= 749)
+                        if (image.Name.StartsWith(namePriority) && Canvas.GetLeft(image) >= position)
                         {
                             DoubleAnimation moverYY = new DoubleAnimation
                             {
-                               
+
                                 To = Canvas.GetTop(image) - 30,
                                 Duration = TimeSpan.FromSeconds(1)
                             };
                             image.BeginAnimation(Canvas.TopProperty, moverYY);
-                        }else if ((Canvas.GetTop(image) == 177 && !image.Name.StartsWith("LowPriority")) || (Canvas.GetTop(image) == 242 && Canvas.GetTop(image)!=749 && image.Name.StartsWith("LowPriority")) || (image.Name.StartsWith("LowPriority")&& Canvas.GetTop(image) != 177))
+                        }
+                        else if ((Canvas.GetTop(image) == 177 && !image.Name.StartsWith(namePriority)) || (Canvas.GetTop(image) == 242 && Canvas.GetTop(image) != 749 && image.Name.StartsWith("LowPriority")) || (image.Name.StartsWith("LowPriority") && Canvas.GetTop(image) != 177))
                         {
                             DoubleAnimation moverX = new DoubleAnimation
                             {
@@ -379,50 +485,66 @@ namespace HospitalEmergencySimulation
             }
         }
 
-        public void TerminateServicePatiente(string namePriority, double server)
+        public void TerminateServicePatiente()
         {
-            System.Windows.Controls.Image patientDischarged = null;
-            double x = 0;
-            double y = 0;
-            foreach (UIElement element in canvas.Children)
+            Dictionary<double, string> end = new Dictionary<double, string>();
+            List<FormatPatient> patientsBeingAttended = formatPatienttAll.Where(p => p.IsAttended == true).ToList();
+            foreach (FormatPatient patient in patientsBeingAttended)
             {
-                if (element is System.Windows.Controls.Image image && image.Name.StartsWith(namePriority))
+                string namePriorityPatient = (patient.Priority == 1) ? "HighPriority" : "LowPriority";
+                double serverPatient = patient.IdDoctor;
+                if (patient.MissingServiceTime <= 0)
                 {
-                    x = Canvas.GetLeft(image);
-                    y = Canvas.GetTop(image);
-                    if (x == server && y == 103)
-                    {
-                        patientDischarged = image;
-                        break;
-                    }
+                    end[serverPatient] = namePriorityPatient;
                 }
             }
-            if (patientDischarged != null)
+            foreach (KeyValuePair<double, string> item in end)
             {
-                DoubleAnimation moverX = new DoubleAnimation
+                string namePriority = item.Value;
+                double server = item.Key;
+                System.Windows.Controls.Image patientDischarged = null;
+                double x = 0;
+                double y = 0;
+                foreach (UIElement element in canvas.Children)
                 {
-
-                    From = x,
-                    To = server - 94,//590,
-                    Duration = TimeSpan.FromSeconds(1)
-
-                };
-                moverX.Completed += (s, e) =>
-                {
-                    DoubleAnimation moverY = new DoubleAnimation
+                    if (element is System.Windows.Controls.Image image && image.Name.StartsWith(namePriority))
                     {
-                        From = y,
-                        To = -30, // Cambia esto a la posición Y donde quieres que se quede la imagen
+                        x = Canvas.GetLeft(image);
+                        y = Canvas.GetTop(image);
+                        if (x == server && y == 103)
+                        {
+                            patientDischarged = image;
+                            break;
+                        }
+                    }
+                }
+                if (patientDischarged != null)
+                {
+                    DoubleAnimation moverX = new DoubleAnimation
+                    {
+
+                        From = x,
+                        To = server - 94,//590,
                         Duration = TimeSpan.FromSeconds(1)
+
                     };
-                    moverY.Completed += (s, e) =>
+                    moverX.Completed += (s, e) =>
                     {
-                        canvas.Children.Remove(patientDischarged);
+                        DoubleAnimation moverY = new DoubleAnimation
+                        {
+                            From = y,
+                            To = -30, // Cambia esto a la posición Y donde quieres que se quede la imagen
+                            Duration = TimeSpan.FromSeconds(1)
+                        };
+                        moverY.Completed += (s, e) =>
+                        {
+                            canvas.Children.Remove(patientDischarged);
+                        };
+                        patientDischarged.BeginAnimation(Canvas.TopProperty, moverY);
+                        patientDischarged.BeginAnimation(Canvas.TopProperty, moverY);
                     };
-                    patientDischarged.BeginAnimation(Canvas.TopProperty, moverY);
-                    patientDischarged.BeginAnimation(Canvas.TopProperty, moverY);
-                };
-                patientDischarged.BeginAnimation(Canvas.LeftProperty, moverX);
+                    patientDischarged.BeginAnimation(Canvas.LeftProperty, moverX);
+                }
             }
         }
 
@@ -472,7 +594,7 @@ namespace HospitalEmergencySimulation
                             Duration = TimeSpan.FromSeconds(1)
 
                         };
-                        firstElement.Name = "A"+namePriority;
+                        firstElement.Name = "A" + namePriority;
                         firstElement.BeginAnimation(Canvas.TopProperty, moverY);
                     };
                     firstElement.BeginAnimation(Canvas.LeftProperty, moverX);
@@ -524,7 +646,7 @@ namespace HospitalEmergencySimulation
                 {
                     From = 0,
                     To = 1,
-                    Duration = TimeSpan.FromSeconds(0.5)
+                    Duration = TimeSpan.FromSeconds(1)
                 };
                 image.BeginAnimation(UIElement.OpacityProperty, aparecer);
 
@@ -567,14 +689,14 @@ namespace HospitalEmergencySimulation
                             positionYFinal = Canvas.GetTop(lastImageLowPriority);
                             double xc = Canvas.GetLeft(lastImageLowPriority);
                             double yc = Canvas.GetTop(image);
-                           
+
                         }
                     }
-                    
+
                     positionFinal = isFirst ? Canvas.GetLeft(lastImageLowPriority) - 30 : 749;
                     if (positionFinal > 100)
                     {
-                        myLabel.Content = "Posvicion X: " + positionFinal + " prueba: " + isFirst + " yy: "  ;
+                        myLabel.Content = "Posvicion X: " + positionFinal + " prueba: " + isFirst + " yy: ";
                         // Animación de movimiento horizontal
                         DoubleAnimation moverX = new DoubleAnimation
                         {
@@ -618,12 +740,12 @@ namespace HospitalEmergencySimulation
                                     myLabel.Content = "Posicionc X: " + xc + " prueba: " + isFirst + " yy: " + yc;
                                 }
                             }
-                             myLabel.Content = "Posicion Y: "+ positionFinal+ " prueba: " + isFirst + " yy: " ;
+                            myLabel.Content = "Posicion Y: " + positionFinal + " prueba: " + isFirst + " yy: ";
                             positionFinal = isFirst ? Canvas.GetTop(lastImageLowPriority) + 30 : 177;
                             if (positionFinal <= 230)
                             {
 
-                                myLabel.Content = "Posicion Y: "+ positionFinal+ " prueba: " + isFirst + " yy: " ;
+                                myLabel.Content = "Posicion Y: " + positionFinal + " prueba: " + isFirst + " yy: ";
                                 DoubleAnimation moverYY = new DoubleAnimation
                                 {
 
@@ -637,13 +759,13 @@ namespace HospitalEmergencySimulation
                                 };
                                 image.BeginAnimation(Canvas.TopProperty, moverYY);
                             }
-                           
 
-                            
+
+
                         };
                         image.BeginAnimation(Canvas.LeftProperty, moverX);
                     }
-                    else if(positionFinal<100)
+                    else if (positionFinal < 100)
                     {
                         myLabel.Content = "Possaicion Y: " + positionFinal + " prueba: " + isFirst + " yy: ";
                         positionInitialLowPriority += 30;
@@ -660,10 +782,10 @@ namespace HospitalEmergencySimulation
                 timer.Stop();
             }
         }
-        
+
         public void ViewTables(object sender, RoutedEventArgs e)
         {
-           
+
             myLabe.Content = "envio " + resultsForTime.Count;
             ViewTables viewTables = new ViewTables(resultsForTime);
             viewTables.Show();
