@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 
 namespace HospitalEmergencySimulation.Controller
@@ -36,13 +37,25 @@ namespace HospitalEmergencySimulation.Controller
 
        public ObservableCollection<ResultsForTime> GetResults()
         {
-            
-            queueSimulationManager.init();
+            int count = 0;
+            while(count < 10)
+            {
+                queueSimulationManager.init();
+                count++;
+            }
+            count = 0;
+            while(count == 0)
+            {
+                count = queueSimulationManager.FinishAttention();
+            }
             results = queueSimulationManager.GetResultForTimes();
-
+            MessageBox.Show("quedo en " + queueSimulationManager.CurrentSimulationTime);
             return results;
         }
 
-
+        public void print()
+        {
+            queueSimulationManager.PrintLists();
+        }
     }
 }

@@ -20,5 +20,9 @@ namespace HospitalEmergencySimulation.Model
             IdPatient = -1;
             IsOccupied = false;
         }
+        public Doctor Clone()
+        {
+            return (Doctor)this.MemberwiseClone();
+        }
     }
 }

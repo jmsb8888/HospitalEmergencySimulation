@@ -1,4 +1,6 @@
+using HospitalEmergencySimulation.Controller;
 using HospitalEmergencySimulation.Model;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 [assembly: ThemeInfo(
@@ -9,3 +11,8 @@ using System.Windows;
                                                 //(used if a resource is not found in the page,
                                                 // app, or any theme specific resource dictionaries)
 )]
+/*
+ControllerSimulation controller = new ControllerSimulation(3, 3,4,4,5,55,5);
+ObservableCollection<ResultsForTime> d= controller.GetResults();
+Console.WriteLine("hay " + d.Count);
+controller.print();*/

@@ -40,10 +40,6 @@ namespace HospitalEmergencySimulation
 
                 foreach (Doctor result2 in result.Doctors)
                 {
-
-                    if (result.Time == 0)
-                    {
-
                         FormarDataDoctor aux = new FormarDataDoctor
                         {
                             TimeSimulation = result.Time,
@@ -53,14 +49,11 @@ namespace HospitalEmergencySimulation
                             Time = result2.Time
                         };
                         DataDoctor.Add(aux);
-                    }
+                    
 
                 }
                 foreach (Patient result2 in result.PatientsInSystem)
                 {
-
-                    if (result.Time == 0)
-                    {
 
                         FormatPatient aux = new FormatPatient
                         {
@@ -75,7 +68,6 @@ namespace HospitalEmergencySimulation
                             FinishedAttended = result2.FinishedAttended,
                         };
                         formatPatients.Add(aux);
-                    }
                 }
 
             }
