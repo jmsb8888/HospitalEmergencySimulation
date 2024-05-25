@@ -33,12 +33,16 @@ namespace HospitalEmergencySimulation
         int countHiPriority = 0;
         int countLowPriority = 0;
         int gdf = 177;
-        private int patientCount = 0;
+        private int patientHighCount = 0;
+        private int patientLowCount = 0;
         private System.Windows.Controls.Image lastImage = null;
         private System.Windows.Controls.Image lastImageLowPriority = null;
         private System.Windows.Controls.Image lastPatient = null;
         int positionInitialLowPriority = 242;
-        int QuantityPatientients = 0;
+        int QuantityPatientientsHigh = 0;
+        int QuantityPatientientsLow = 0;
+        HashSet<int> patientsIdHigh = new HashSet<int>();
+        HashSet<int> patientsIdLow = new HashSet<int>();
          ControllerSimulation controller;
         public MainWindow(ControllerSimulation controller)
         {
@@ -56,8 +60,10 @@ namespace HospitalEmergencySimulation
 
             resultsForTime = controller.GetResults();
              
-            int count = 1;
-            List<FormatPatient> formatPatients = new List<FormatPatient>();
+            int count = 0;
+            List<FormatPatient> formatPatientsHighPriority = new List<FormatPatient>();
+            List<FormatPatient> formatPatientsLowPriorty = new List<FormatPatient>();
+            List<FormarDataDoctor> DataDoctor = new List<FormarDataDoctor>();
             foreach (ResultsForTime result in resultsForTime)
             {
                 foreach (Patient result2 in result.PatientsInSystem)
@@ -78,17 +84,111 @@ namespace HospitalEmergencySimulation
                             Priority = result2.Priority,
                             TimeWait = result2.TimeWait,
                         };
-                        formatPatients.Add(aux);
+                        
+                        if (aux.Priority == 1 )
+                        {
+                            formatPatientsHighPriority.Add(aux);
+                            patientsIdHigh.Add(aux.IdPatient);
+                        }
+                        else if(aux.Priority == 0 )
+                        {
+                            formatPatientsLowPriorty.Add(aux);
+                            patientsIdLow.Add(aux.IdPatient);
+                        }
+                        
                     }
                 }
-            }count++;
-            myLabel.Content = "hay " + formatPatients.Count;
-            QuantityPatientients = 10;
-
+                
+                foreach (Doctor result2 in result.Doctors)
+                {
+                    FormarDataDoctor aux = new FormarDataDoctor
+                    {
+                        TimeSimulation = result.Time,
+                        IdDoctor = result2.IdDoctor,
+                        IdPatient = result2.IdPatient,
+                        IsOccupied = result2.IsOccupied,
+                        Time = result2.Time
+                    };
+                    DataDoctor.Add(aux);
+                }
+            }
+            count++;
+            myLabel.Content = "hay ALta " + formatPatientsHighPriority.Count + " hay baja " + formatPatientsLowPriorty.Count;
+            QuantityPatientientsHigh = 5;
+            QuantityPatientientsLow =5;
+            /*  DispatcherTimer timerr = new DispatcherTimer();
+              timerr.Interval = TimeSpan.FromSeconds(3.5);
+              timerr.Tick += (s, y) =>
+              {
+                  CreatePatient(3.5);
+                  TerminateServicePatiente("LowPriority", 148);
+                  attend("LowPriority", 148);
+                  AdvanceQueue("LowPriority");
+              };*/
+            // Crear el primer temporizador
+            DispatcherTimer timer1 = new DispatcherTimer();
+            timer1.Interval = TimeSpan.FromSeconds(3.5);
+            timer1.Tick += (s, y) =>
+            {
+                // Ejecutar el primer método
                 CreatePatient(3.5);
 
+                // Detener el primer temporizador
+                timer1.Stop();
 
-    
+                double d = 3.5 * QuantityPatientientsHigh;
+                // Crear e iniciar el segundo temporizador dentro del primer temporizador
+                DispatcherTimer timer2 = new DispatcherTimer();
+                timer2.Interval = TimeSpan.FromSeconds(d); // Ajusta este valor según tus necesidades
+                timer2.Tick += (s, z) =>
+                {
+                    // Ejecutar el segundo método
+                    attend("LowPriority", 148);
+
+                    // Detener el segundo temporizador
+                    timer2.Stop();
+
+                    double ss = d +2;
+                    // Crear e iniciar el segundo temporizador dentro del primer temporizador
+                    DispatcherTimer timer3 = new DispatcherTimer();
+                    timer3.Interval = TimeSpan.FromSeconds(ss); // Ajusta este valor según tus necesidades
+                    timer3.Tick += (s, z) =>
+                    {
+                        // Ejecutar el segundo método
+
+                        AdvanceQueue("LowPriority");
+                        // Detener el segundo temporizador
+                        timer3.Stop();
+                        double sss = ss +5;
+                        DispatcherTimer timer4 = new DispatcherTimer();
+                        timer4.Interval = TimeSpan.FromSeconds(sss); // Ajusta este valor según tus necesidades
+                        timer4.Tick += (s, z) =>
+                        {
+                            // Ejecutar el segundo método
+                            TerminateServicePatiente("ALowPriority", 148);
+
+                            // Detener el segundo temporizador
+                            timer4.Stop();
+
+                        };
+                        timer4.Start();
+                    };
+                    timer3.Start();
+
+                };
+                timer2.Start();
+            };
+            timer1.Start();
+
+
+            /*
+                CreatePatient(3.5);
+                TerminateServicePatiente("LowPriority", 148);
+                
+                AdvanceQueue("LowPriority");
+            */
+
+
 
         }
         public void CreatePatient(double seconds)
@@ -226,10 +326,10 @@ namespace HospitalEmergencySimulation
                 //myLabel.Content = "Nuevo contenido  " + lastPosition + " CANTIDAD " + coordinateHighPriority.Count;
             };
             // Incrementa el contador de pacientes
-            patientCount++;
+            patientHighCount++;
 
             // Si ya se han creado todos los pacientes, detén el temporizador
-            if (patientCount >= QuantityPatientients)
+            if (patientHighCount >= QuantityPatientientsHigh)
             {
                 timer.Stop();
             }
@@ -372,6 +472,7 @@ namespace HospitalEmergencySimulation
                             Duration = TimeSpan.FromSeconds(1)
 
                         };
+                        firstElement.Name = "A"+namePriority;
                         firstElement.BeginAnimation(Canvas.TopProperty, moverY);
                     };
                     firstElement.BeginAnimation(Canvas.LeftProperty, moverX);
@@ -552,9 +653,9 @@ namespace HospitalEmergencySimulation
                 //myLabel.Content = "Nuevo contenido  " + lastPosition + " CANTIDAD " + coordinateHighPriority.Count;
             };
             // Incrementa el contador de pacientes
-            patientCount++;
+            patientLowCount++;
             // Si ya se han creado todos los pacientes, detén el temporizador
-            if (patientCount >= QuantityPatientients)
+            if (patientLowCount >= QuantityPatientientsLow)
             {
                 timer.Stop();
             }

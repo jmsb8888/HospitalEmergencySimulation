@@ -49,7 +49,7 @@ namespace HospitalEmergencySimulation.Controller
                 count = queueSimulationManager.FinishAttention();
             }
             results = queueSimulationManager.GetResultForTimes();
-            MessageBox.Show("quedo en " + queueSimulationManager.CurrentSimulationTime);
+           // MessageBox.Show("quedo en " + queueSimulationManager.CurrentSimulationTime);
             return results;
         }
 

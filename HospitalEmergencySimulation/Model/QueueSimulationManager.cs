@@ -58,8 +58,8 @@ namespace HospitalEmergencySimulation.Model
         public void init()
         {
                 isCheckInQueue = false;
-                
-                ResultsForTime resultsForTime = new ResultsForTime();
+            CurrentSimulationTime++;
+            ResultsForTime resultsForTime = new ResultsForTime();
                 resultsForTime.Time = CurrentSimulationTime-1;
                 resultsForTimes.Add(resultsForTime);
                 GenerateLowPriorityQueue();
@@ -94,7 +94,7 @@ namespace HospitalEmergencySimulation.Model
 
                     }
                 }
-            CurrentSimulationTime++;
+            
 
             /*
             int num = 1;
@@ -124,12 +124,12 @@ namespace HospitalEmergencySimulation.Model
         {
             if(HighPriorityQueue.Count > 0 || LowPriorityQueue.Count > 0)
             {
-                
+                CurrentSimulationTime++;
                 ResultsForTime resultsForTime = new ResultsForTime();
                 resultsForTime.Time = CurrentSimulationTime - 1;
                 resultsForTimes.Add(resultsForTime);
                 ManageCustomerService();
-                CurrentSimulationTime++;
+                
                 /*Console.WriteLine(CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime);
                 foreach (Doctor doctor in doctors)
                 {
@@ -245,7 +245,7 @@ namespace HospitalEmergencySimulation.Model
             double ArrivalRate = 0.8;
             double ExponentialValue = distributions.ExponentialInverseTransform(Ri, ArrivalRate);
 
-            while (TimeTraveled <= CurrentSimulationTime)
+            while (TimeTraveled < CurrentSimulationTime)
             {
                 CreatePatient(TimeTraveled, 0, LowPriorityQueue, (patient) => AssignSeriviceTime(patient, 1, 2));
                 TimeTraveled += ExponentialValue;
@@ -335,7 +335,7 @@ namespace HospitalEmergencySimulation.Model
                         }
                         if (patient.MissingServiceTime - 1 < 0)
                         {
-                            patient.TimeOfExit = (register.Time )+ patient.MissingServiceTime;
+                            patient.TimeOfExit = (register.Time-1)+ patient.MissingServiceTime;
                         }
                         patient.MissingServiceTime -= 1;
                         isCheckPatient = true;
@@ -372,6 +372,7 @@ namespace HospitalEmergencySimulation.Model
                             Doctor doctorClone = doctor.Clone();
                             IsDoctorAttend = true;
                             register.Doctors.Add(doctorClone);
+                            CheckQueue(queue, doctor, priority);
                         }
                         else
                         {
@@ -387,6 +388,7 @@ namespace HospitalEmergencySimulation.Model
                             Doctor doctorClone = doctor.Clone();
                             IsDoctorAttend = true;
                             register.Doctors.Add(doctorClone);
+                            CheckQueue(queue, doctor, priority);
                         }
                         
                         IsCheck = true;
