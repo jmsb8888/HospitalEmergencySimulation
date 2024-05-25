@@ -15,6 +15,7 @@ namespace HospitalEmergencySimulation.Model
         public double ServiceTime { get; set; }
         public double MissingServiceTime { get; set; }
         public double TimeOfArrival { get; set; }
+        public double TimeWait { get; set; }
         public int IdDoctor { get; set; }
         public double TimeOfExit { get; set; }
         public Boolean FinishedAttended { get; set; }

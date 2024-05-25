@@ -38,7 +38,7 @@ namespace HospitalEmergencySimulation.Controller
        public ObservableCollection<ResultsForTime> GetResults()
         {
             int count = 0;
-            while(count < 10)
+            while(count < 30)
             {
                 queueSimulationManager.init();
                 count++;

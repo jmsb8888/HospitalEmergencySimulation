@@ -31,13 +31,15 @@
                 </Style>
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Tiempo Simulación" Binding="{Binding TimeSimulation}" Width="*"/>
-                <DataGridTextColumn Header="IdDoctor" Binding="{Binding IdDoctor}" Width="*" />
-                <DataGridTextColumn Header="IdPaciente" Binding="{Binding IdPatient}" Width="*"/>
-                <DataGridTextColumn Header="Atendido" Binding="{Binding IsAttended}" Width="*"/>
+                    <DataGridTextColumn Header="Tiempo Simulación" Binding="{Binding TimeSimulation}" Width="*"/>
+                    <DataGridTextColumn Header="IdPaciente" Binding="{Binding IdPatient}" Width="*"/>
+                    <DataGridTextColumn Header="Prioridad" Binding="{Binding Priority}" Width="*"/>
+                    <DataGridTextColumn Header="IdDoctor" Binding="{Binding IdDoctor}" Width="*" />
+                    <DataGridTextColumn Header="Atendido" Binding="{Binding IsAttended}" Width="*"/>
                 <DataGridTextColumn Header="Tiempo Servicio" Binding="{Binding ServiceTime}" Width="*"/>
                 <DataGridTextColumn Header="Tiempo Faltante" Binding="{Binding MissingServiceTime}" Width="*"/>
                 <DataGridTextColumn Header="Hora Llegada" Binding="{Binding TimeOfArrival}" Width="*"/>
+                <DataGridTextColumn Header="Tiempo de espera" Binding="{Binding TimeWait}" Width="*"/>
                 <DataGridTextColumn Header="Hora Salida" Binding="{Binding TimeOfExit}" Width="*"/>
                 <DataGridTextColumn Header="Finalizado" Binding="{Binding FinishedAttended}" Width="*"/>
             </DataGrid.Columns>

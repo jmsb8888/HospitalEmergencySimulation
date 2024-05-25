@@ -66,6 +66,8 @@ namespace HospitalEmergencySimulation
                             TimeOfArrival = result2.TimeOfArrival,
                             TimeOfExit = result2.TimeOfExit,
                             FinishedAttended = result2.FinishedAttended,
+                            Priority = result2.Priority,
+                            TimeWait = result2.TimeWait,
                         };
                         formatPatients.Add(aux);
                 }

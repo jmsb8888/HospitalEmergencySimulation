@@ -58,7 +58,7 @@ namespace HospitalEmergencySimulation.Model
         public void init()
         {
                 isCheckInQueue = false;
-                CurrentSimulationTime++;
+                
                 ResultsForTime resultsForTime = new ResultsForTime();
                 resultsForTime.Time = CurrentSimulationTime-1;
                 resultsForTimes.Add(resultsForTime);
@@ -94,8 +94,8 @@ namespace HospitalEmergencySimulation.Model
 
                     }
                 }
-            
-         
+            CurrentSimulationTime++;
+
             /*
             int num = 1;
             while (num == 1)
@@ -123,8 +123,13 @@ namespace HospitalEmergencySimulation.Model
         public int FinishAttention ()
         {
             if(HighPriorityQueue.Count > 0 || LowPriorityQueue.Count > 0)
-            { 
+            {
+                
+                ResultsForTime resultsForTime = new ResultsForTime();
+                resultsForTime.Time = CurrentSimulationTime - 1;
+                resultsForTimes.Add(resultsForTime);
                 ManageCustomerService();
+                CurrentSimulationTime++;
                 /*Console.WriteLine(CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime + CurrentSimulationTime + "" + CurrentSimulationTime);
                 foreach (Doctor doctor in doctors)
                 {
@@ -306,6 +311,7 @@ namespace HospitalEmergencySimulation.Model
                     Patient patient = queue[i];
                     if (!doctor.IsOccupied && !patient.IsAttended)
                     {
+                        
                         patient.IsAttended = true;
                         // wasOccupied = true;
                         doctor.IdPatient = patient.IdPatient;
@@ -323,6 +329,14 @@ namespace HospitalEmergencySimulation.Model
                     }
                     else if (patient.IdDoctor == doctor.IdDoctor && patient.IsAttended && patient.MissingServiceTime > 0)
                     {
+                        if(patient.IdPatient == 2)
+                        {
+                            MessageBox.Show("tinempo actual " + CurrentSimulationTime + " tiempo queda " + patient.MissingServiceTime);
+                        }
+                        if (patient.MissingServiceTime - 1 < 0)
+                        {
+                            patient.TimeOfExit = (register.Time )+ patient.MissingServiceTime;
+                        }
                         patient.MissingServiceTime -= 1;
                         isCheckPatient = true;
                         //int df = register.PatientsInSystem[0].IdPatient;
@@ -347,6 +361,8 @@ namespace HospitalEmergencySimulation.Model
                         if (priority == "High")
                         {
                             Console.WriteLine("************************************************************");
+                            patient.FinishedAttended = true;
+                            patient.TimeWait = patient.TimeOfExit - (patient.TimeOfArrival + patient.ServiceTime);
                             PatientsTreatedHighPriority.Add(patient);
                             //register.PatientsInSystem.FirstOrDefault(c => c.IdPatient == patient.IdPatient).FinishedAttended = true;
                             Patient patientClone = patient.Clone();
@@ -360,6 +376,8 @@ namespace HospitalEmergencySimulation.Model
                         else
                         {
                             Console.WriteLine("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+                            patient.FinishedAttended = true;
+                            patient.TimeWait = patient.TimeOfExit - (patient.TimeOfArrival + patient.ServiceTime);
                             PatientsTreatedLowPriority.Add(patient);
                             //register.PatientsInSystem.FirstOrDefault(c => c.IdPatient == patient.IdPatient).FinishedAttended = true;
                             Patient patientClone = patient.Clone();

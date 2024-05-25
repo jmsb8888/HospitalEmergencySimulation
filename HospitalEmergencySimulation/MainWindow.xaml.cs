@@ -29,6 +29,7 @@ namespace HospitalEmergencySimulation
         private DispatcherTimer timer;
         List<Tuple<double, double>> coordinateHighPriority = new List<Tuple<double, double>>();
         List<Tuple<double, double>> coordinateLowPriority = new List<Tuple<double, double>>();
+        ObservableCollection<ResultsForTime> resultsForTime = new ObservableCollection<ResultsForTime>();
         int countHiPriority = 0;
         int countLowPriority = 0;
         int gdf = 177;
@@ -37,6 +38,7 @@ namespace HospitalEmergencySimulation
         private System.Windows.Controls.Image lastImageLowPriority = null;
         private System.Windows.Controls.Image lastPatient = null;
         int positionInitialLowPriority = 242;
+        int QuantityPatientients = 0;
          ControllerSimulation controller;
         public MainWindow(ControllerSimulation controller)
         {
@@ -49,6 +51,46 @@ namespace HospitalEmergencySimulation
             ServerThree.Source = new BitmapImage(new Uri("C:\\Users\\Jmsb-\\OneDrive\\Escritorio\\TallerElectivaIIUsers\\Proyecto_simulacion\\HospitalEmergencySimulation\\HospitalEmergencySimulation\\file (3).png"));
         }
        
+        public async void myButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            resultsForTime = controller.GetResults();
+             
+            int count = 1;
+            List<FormatPatient> formatPatients = new List<FormatPatient>();
+            foreach (ResultsForTime result in resultsForTime)
+            {
+                foreach (Patient result2 in result.PatientsInSystem)
+                {
+                    if (result.Time == count)
+                    {
+                        FormatPatient aux = new FormatPatient
+                        {
+                            TimeSimulation = result.Time,
+                            IdDoctor = result2.IdDoctor,
+                            IdPatient = result2.IdPatient,
+                            IsAttended = result2.IsAttended,
+                            ServiceTime = result2.ServiceTime,
+                            MissingServiceTime = result2.MissingServiceTime,
+                            TimeOfArrival = result2.TimeOfArrival,
+                            TimeOfExit = result2.TimeOfExit,
+                            FinishedAttended = result2.FinishedAttended,
+                            Priority = result2.Priority,
+                            TimeWait = result2.TimeWait,
+                        };
+                        formatPatients.Add(aux);
+                    }
+                }
+            }count++;
+            myLabel.Content = "hay " + formatPatients.Count;
+            QuantityPatientients = 10;
+
+                CreatePatient(3.5);
+
+
+    
+
+        }
         public void CreatePatient(double seconds)
         {
             /*// Cambia esto al número de segundos que quieres esperar
@@ -61,17 +103,17 @@ namespace HospitalEmergencySimulation
             {
                 timer = new DispatcherTimer();
                 timer.Interval = TimeSpan.FromSeconds(seconds);
-                //timer.Tick += Timer_Tick;
+                timer.Tick += Timer_Tick;
                 timer.Tick += Timer_Low_prority;
             }
 
             // Inicia el temporizador
             timer.Start();
         }
-        private void myButton_Click(object sender, RoutedEventArgs e)
+       /* private void myButton_Click(object sender, RoutedEventArgs e)
         {
             CreatePatient(3.5);
-        }
+        }*/
 
         private void InitService(object sender, RoutedEventArgs e)
         {
@@ -187,7 +229,7 @@ namespace HospitalEmergencySimulation
             patientCount++;
 
             // Si ya se han creado todos los pacientes, detén el temporizador
-            if (patientCount >= 3)
+            if (patientCount >= QuantityPatientients)
             {
                 timer.Stop();
             }
@@ -512,7 +554,7 @@ namespace HospitalEmergencySimulation
             // Incrementa el contador de pacientes
             patientCount++;
             // Si ya se han creado todos los pacientes, detén el temporizador
-            if (patientCount >= 6)
+            if (patientCount >= QuantityPatientients)
             {
                 timer.Stop();
             }
@@ -520,9 +562,9 @@ namespace HospitalEmergencySimulation
         
         public void ViewTables(object sender, RoutedEventArgs e)
         {
-            ObservableCollection<ResultsForTime> data = controller.GetResults();
-            myLabe.Content = "envio " + data.Count;
-            ViewTables viewTables = new ViewTables(data);
+           
+            myLabe.Content = "envio " + resultsForTime.Count;
+            ViewTables viewTables = new ViewTables(resultsForTime);
             viewTables.Show();
 
         }
