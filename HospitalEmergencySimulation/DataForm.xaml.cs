@@ -1,6 +1,7 @@
 ﻿using HospitalEmergencySimulation.Controller;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,33 +24,45 @@ namespace HospitalEmergencySimulation
         }
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (!IsTextNumeric(e.Text))
+            string newText = ((TextBox)sender).Text + e.Text;
+            e.Handled = !IsTextNumeric(newText);
+        }
+
+        private bool IsTextNumeric(string text)
+        {
+            bool isNumeric = double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out _);
+            return isNumeric || text == ".";
+        }
+        private void TextBoxx_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!IssTextNumeric(e.Text))
             {
                 e.Handled = true;
             }
         }
-        private bool IsTextNumeric(string text)
+        private bool IssTextNumeric(string text)
         {
-            return double.TryParse(text, out _);
+            bool isNumeric = double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out _);
+            return isNumeric;
         }
         private void getParameters(object sender, RoutedEventArgs e)
         {
-
-            double vMinimumAttentionTimeHighPriority = double.Parse(minimumAttentionTimeHighPriority.Text);
-            double vMaximumAttentionTimeHighPriority = double.Parse(maximumAttentionTimeHighPriority.Text);
-            double vMinimumAttentionTimeLowPriority = double.Parse(minimumAttentionTimeLowPriority.Text);
-            double vMaximumAttentionTimeLowPriority = double.Parse(maximumAttentionTimeLowPriority.Text);
-            double vLambdaArrivalHighPrority = double.Parse(lambdaArrivalHighPrority.Text);
-            double vLambdaArrivalLowPrority = double.Parse(lambdaArrivalLowPrority.Text);
-            int vNumberArrivalIntervals = int.Parse(numberArrivalIntervals.Text);
-
-            ControllerSimulation controller = new ControllerSimulation(vMinimumAttentionTimeHighPriority, vMaximumAttentionTimeHighPriority, vMinimumAttentionTimeLowPriority, vMaximumAttentionTimeLowPriority,
-            vLambdaArrivalHighPrority, vLambdaArrivalLowPrority, vNumberArrivalIntervals);
-            MainWindow mainWindow = new MainWindow(controller);
-            mainWindow.Show();
-            this.Close();
+            if (double.TryParse(minimumAttentionTimeHighPriority.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double vMinimumAttentionTimeHighPriority) &&
+                double.TryParse(maximumAttentionTimeHighPriority.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double vMaximumAttentionTimeHighPriority) &&
+                double.TryParse(minimumAttentionTimeLowPriority.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double vMinimumAttentionTimeLowPriority) &&
+                double.TryParse(maximumAttentionTimeLowPriority.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double vMaximumAttentionTimeLowPriority) &&
+                double.TryParse(lambdaArrivalHighPrority.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double vLambdaArrivalHighPrority) &&
+                double.TryParse(lambdaArrivalLowPrority.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double vLambdaArrivalLowPrority) &&
+                int.TryParse(numberArrivalIntervals.Text, out int vNumberArrivalIntervals))
+            {
+                ControllerSimulation controller = new ControllerSimulation(vMinimumAttentionTimeHighPriority, vMaximumAttentionTimeHighPriority, vMinimumAttentionTimeLowPriority, vMaximumAttentionTimeLowPriority,
+                    vLambdaArrivalHighPrority, vLambdaArrivalLowPrority, vNumberArrivalIntervals);
+                MainWindow mainWindow = new MainWindow(controller);
+                mainWindow.Show();
+                this.Close();
+            }
         }
 
-    }
+        }
 
 }

@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace HospitalEmergencySimulation
 {
-    /// <summary>
-    /// Lógica de interacción para ViewTables.xaml
-    /// </summary>
     public partial class ViewTables : Window
     {
         ObservableCollection<ResultsForTime> data;
