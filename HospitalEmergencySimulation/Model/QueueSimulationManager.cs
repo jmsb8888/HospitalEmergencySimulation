@@ -25,7 +25,7 @@ namespace HospitalEmergencySimulation.Model
         List<Patient> PatientsTreatedLowPriority = new List<Patient>();
         List<Doctor> doctors = new List<Doctor>();
         ObservableCollection<ResultsForTime> resultsForTimes = new ObservableCollection<ResultsForTime>();
-
+        int countPositionRi = 0;
         private int minimumAttentionTimeHighPriority;
         private int maximumAttentionTimeHighPriority;
         private int minimumAttentionTimeLowPriority;
@@ -33,6 +33,9 @@ namespace HospitalEmergencySimulation.Model
         private int lambdaArrivalHighPrority;
         private int lambdaArrivalLowPrority;
         private int numberArrivalIntervals;
+        FileHandler fileHandler = new FileHandler();
+        List<double> DataRi = new List<double>();
+        Random RandomRi = new Random();
         public QueueSimulationManager(int minimumAttentionTimeHighPriority, int maximumAttentionTimeHighPriority, int minimumAttentionTimeLowPriority, int maximumAttentionTimeLowPriority,
                                       int lambdaArrivalHighPrority, int lambdaArrivalLowPrority, int numberArrivalIntervals) 
         {
@@ -48,7 +51,9 @@ namespace HospitalEmergencySimulation.Model
             TimeTraveled = 0;
             CurrentSimulationTime = 0;
             createDoctors(3);
-           // init();
+            DataRi = fileHandler.ReadCsvFile();
+            countPositionRi = RandomRi.Next(0, DataRi.Count);
+            // init();
         }
         public ObservableCollection<ResultsForTime> GetResultForTimes()
         {
@@ -225,7 +230,8 @@ namespace HospitalEmergencySimulation.Model
         public void GenerateHighPriorityQueue(int count)
         {
             double Lambda = 0.05;
-            double Ri = new Random().NextDouble();
+            double Ri = DataRi[countPositionRi];
+            countPositionRi++;
             int PoissonValue = distributions.PoissonInverseTransform(Ri, Lambda);
             if (PoissonValue != 0)
             {
@@ -240,7 +246,8 @@ namespace HospitalEmergencySimulation.Model
         {
             int count = 0;
             //Ri para exponencial
-            double Ri = new Random().NextDouble();
+            double Ri = DataRi[countPositionRi];
+            countPositionRi++;
             //Lamda para expoenencial clientes por unidad de tiempo
             double ArrivalRate = 0.8;
             double ExponentialValue = distributions.ExponentialInverseTransform(Ri, ArrivalRate);
@@ -257,7 +264,8 @@ namespace HospitalEmergencySimulation.Model
 
         public void AssignSeriviceTime(Patient patient, int lowerLimit, int highLimit)
         {
-            double Ri = new Random().NextDouble();
+            double Ri = DataRi[countPositionRi];
+            countPositionRi++;
             double UniformValue = distributions.UniformDistribution(lowerLimit, highLimit, Ri);
             Console.WriteLine("Asignar tiempo de servicio: " + UniformValue);
             patient.MissingServiceTime = UniformValue;
