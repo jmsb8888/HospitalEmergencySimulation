@@ -8,6 +8,8 @@ namespace HospitalEmergencySimulation.Model
 {
     public class FormatPatient
     {
+        /*Formato para mostrar los datos de los pacientes durante la simulación 
+    */
         public int TimeSimulation {  get; set; }
         public int IdPatient { get; set; }
         public int Priority { get; set; }

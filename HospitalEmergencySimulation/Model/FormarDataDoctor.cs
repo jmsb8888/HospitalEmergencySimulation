@@ -8,6 +8,8 @@ namespace HospitalEmergencySimulation.Model
 {
     class FormarDataDoctor
     {
+        /*Formato para mostrar los datos de los doctores durante la simulación 
+        */
         public int TimeSimulation {  get; set; }
         public int IdDoctor { get; set; }
         public Boolean IsOccupied { get; set; }

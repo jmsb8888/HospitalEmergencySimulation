@@ -9,6 +9,8 @@ namespace HospitalEmergencySimulation.Model
 {
     public class Patient
     {
+        /*Objeto que define las características de los pacientes
+         */
         public int IdPatient { get; set; }
         public int Priority { get; set; }
         public Boolean IsAttended { get; set; }

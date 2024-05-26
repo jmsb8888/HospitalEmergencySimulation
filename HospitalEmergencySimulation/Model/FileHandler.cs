@@ -15,9 +15,10 @@ namespace HospitalEmergencySimulation.Model
 
         public FileHandler()
         {
-            this.filePath = "C:\\Users\\Jmsb-\\OneDrive\\Escritorio\\TallerElectivaIIUsers\\Proyecto_simulacion\\HospitalEmergencySimulation\\HospitalEmergencySimulation\\numeros_ri_proyecto.csv";
+            this.filePath = System.IO.Path.GetFullPath(@"../../../numeros_ri_proyecto.csv");
         }
-
+        /* realiza la lectura del csv con los datos Ri probados
+         */
         public List<double> ReadCsvFile()
         {
             List<double> data = new List<double>();
