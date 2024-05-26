@@ -26,18 +26,18 @@ namespace HospitalEmergencySimulation.Model
         List<Doctor> doctors = new List<Doctor>();
         ObservableCollection<ResultsForTime> resultsForTimes = new ObservableCollection<ResultsForTime>();
         int countPositionRi = 0;
-        private int minimumAttentionTimeHighPriority;
-        private int maximumAttentionTimeHighPriority;
-        private int minimumAttentionTimeLowPriority;
-        private int maximumAttentionTimeLowPriority;
-        private int lambdaArrivalHighPrority;
-        private int lambdaArrivalLowPrority;
-        private int numberArrivalIntervals;
+        private double minimumAttentionTimeHighPriority;
+        private double maximumAttentionTimeHighPriority;
+        private double minimumAttentionTimeLowPriority;
+        private double maximumAttentionTimeLowPriority;
+        private double lambdaArrivalHighPrority;
+        private double lambdaArrivalLowPrority;
+        private double numberArrivalIntervals;
         FileHandler fileHandler = new FileHandler();
         List<double> DataRi = new List<double>();
         Random RandomRi = new Random();
-        public QueueSimulationManager(int minimumAttentionTimeHighPriority, int maximumAttentionTimeHighPriority, int minimumAttentionTimeLowPriority, int maximumAttentionTimeLowPriority,
-                                      int lambdaArrivalHighPrority, int lambdaArrivalLowPrority, int numberArrivalIntervals)
+        public QueueSimulationManager(double minimumAttentionTimeHighPriority, double maximumAttentionTimeHighPriority, double minimumAttentionTimeLowPriority, double maximumAttentionTimeLowPriority,
+                                      double lambdaArrivalHighPrority, double lambdaArrivalLowPrority, int numberArrivalIntervals)
         {
             this.minimumAttentionTimeHighPriority = minimumAttentionTimeHighPriority;
             this.maximumAttentionTimeHighPriority = maximumAttentionTimeHighPriority;
@@ -125,7 +125,7 @@ namespace HospitalEmergencySimulation.Model
         */
         public void GenerateHighPriorityQueue(int count)
         {
-            double Lambda = 1;
+            double Lambda = lambdaArrivalHighPrority;
             double Ri = DataRi[countPositionRi];
             countPositionRi++;
             int PoissonValue = distributions.PoissonInverseTransform(Ri, Lambda);
@@ -133,7 +133,7 @@ namespace HospitalEmergencySimulation.Model
             {
                 for (int i = 0; i < PoissonValue; i++)
                 {
-                    CreatePatient(count, 1, HighPriorityQueue, (patient) => AssignSeriviceTime(patient, 3, 5));
+                    CreatePatient(count, 1, HighPriorityQueue, (patient) => AssignSeriviceTime(patient, minimumAttentionTimeHighPriority, maximumAttentionTimeHighPriority));
                 }
             }
         }
@@ -148,12 +148,12 @@ namespace HospitalEmergencySimulation.Model
             double Ri = DataRi[countPositionRi];
             countPositionRi++;
             //Lamda para expoenencial clientes por unidad de tiempo
-            double ArrivalRate = 0.8;
+            double ArrivalRate = lambdaArrivalLowPrority;
             double ExponentialValue = distributions.ExponentialInverseTransform(Ri, ArrivalRate);
 
             while (TimeTraveled < CurrentSimulationTime)
             {
-                CreatePatient(TimeTraveled, 0, LowPriorityQueue, (patient) => AssignSeriviceTime(patient, 1, 2));
+                CreatePatient(TimeTraveled, 0, LowPriorityQueue, (patient) => AssignSeriviceTime(patient, minimumAttentionTimeLowPriority, maximumAttentionTimeLowPriority));
                 TimeTraveled += ExponentialValue;
             };
         }
@@ -161,7 +161,7 @@ namespace HospitalEmergencySimulation.Model
         /* Realiza la asignación se tiempos teniendo en cuenta un límite inferior y uno superior para usar la distribución uniforme, esto se realiza mediante
          * la lectura de un Ri dado, asigna un tiempo fijo que no se modificara y un tiempo a descontar
         */
-        public void AssignSeriviceTime(Patient patient, int lowerLimit, int highLimit)
+        public void AssignSeriviceTime(Patient patient, double lowerLimit, double highLimit)
         {
             double Ri = DataRi[countPositionRi];
             countPositionRi++;

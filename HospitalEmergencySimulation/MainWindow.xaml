@@ -12,29 +12,16 @@
 
         <Canvas x:Name="canvas" Background="#E0DCDC">
             <Image Name="Fondo" Height="100" Canvas.Left="5" Canvas.Top="-38" Width="813" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
-            <Button x:Name="d" Content="Button" Canvas.Left="346" Canvas.Top="343" Click="StartSimulation"/>
-            <Label />
-            <Label Name="myLabel" Content="Label" Canvas.Left="535" Canvas.Top="350" Height="53" Width="203"/>
+            <Button x:Name="d" Background="LightBlue" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Content="Iniciar simulación&#xD;&#xA;grafica " Canvas.Left="493" Canvas.Top="341" Click="StartSimulation" Height="44" Width="104" FontWeight="Bold" />
+            <Label Name="myLabel" Content="Label" Canvas.Left="17" Canvas.Top="110" Height="53" Width="203"/>
             <Image Name="ServerOne" Height="100" Width="100" Canvas.Left="119" Canvas.Top="10"/>
             <Image Name="ServerTwo" Height="100" Canvas.Left="338" Canvas.Top="10" Width="100"/>
             <Image Name="ServerThree" Height="100" Canvas.Left="561" Canvas.Top="10" Width="100"/>
-            <Label Content="Label" Canvas.Left="11" Canvas.Top="177"/>
-            <Label Content="Label" Canvas.Left="100" Canvas.Top="242"/>
-            <Label Content="Label" Canvas.Left="691" Canvas.Top="183" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <Label Content="Label" Canvas.Left="749" Canvas.Top="244"/>
-            <Label Content="Label" Canvas.Left="749" Canvas.Top="182"/>
-            <Label Content="Label" Canvas.Left="148" Canvas.Top="130" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.164,0.454"/>
-            <Label Content="Label" Canvas.Left="380" Canvas.Top="132"/>
-            <Label Content="Label" Canvas.Left="590" Canvas.Top="128" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <Button Name="InicarServicio" Content="Button" Canvas.Left="347" Canvas.Top="375" HorizontalAlignment="Left" VerticalAlignment="Center" Click="InitService"/>
-            <Label Content="Label" Canvas.Left="589" Canvas.Top="103"/>
-            <Label Content="Label" Canvas.Left="496" Canvas.Top="126"/>
-            <Button Content="Button" Canvas.Left="349" Canvas.Top="401" Click="TerminateService"/>
-            <Button Content="Button" Height="21" Width="140" Canvas.Left="168" Canvas.Top="354" />
-            <Label  Name="myLabe" Content="Label" RenderTransformOrigin="-0.237,2.253" Canvas.Left="457" Canvas.Top="331"/>
-            <Button Content="Button" Height="21" Width="140" Canvas.Left="168" Canvas.Top="354" Click="ViewTables"/>
-            <Label Content="Label" Canvas.Left="454" Canvas.Top="395" RenderTransformOrigin="0.224,-0.109" Name="numerbucle"/>
-            <Label Content="Label" Canvas.Left="128" Canvas.Top="391" Name="cantidadPendiente"/>
+            <Label  Name="myLabe" Content="Label" RenderTransformOrigin="-0.237,2.253" Canvas.Left="15" Canvas.Top="82"/>
+            <Button Background="LightBlue"  Content="Ver Datos" Height="44" Width="104" Canvas.Left="359" Canvas.Top="341" Click="ViewTables" FontWeight="Bold"/>
+            <Label Content="sssss" Canvas.Left="648" Canvas.Top="321" RenderTransformOrigin="0.224,-0.109" Name="numerbucle" Height="82" Width="127" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="22" 
+                   FontFamily="Arial Black" Background="#AAD4FE" BorderBrush="Black"/>
+            <Label Content="Label" Canvas.Left="18" Canvas.Top="156" Name="cantidadPendiente"/>
             <Image Height="100" Canvas.Left="619" Canvas.Top="91" Width="100"/>
             <Image Name="ca" Height="216" Canvas.Left="96" Canvas.Top="220" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
             <Image x:Name="ca2" Height="100" Canvas.Left="744" Canvas.Top="164" Width="50" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -45,6 +32,7 @@
             <Image x:Name="camino222" Height="44" Canvas.Left="562" Canvas.Top="220" Width="232" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Image x:Name="camino33" Height="44" Canvas.Left="262" Canvas.Top="164" Width="240" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Image x:Name="camino333" Height="44" Canvas.Left="494" Canvas.Top="164" Width="240" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Content="Tiempo de simulación" Canvas.Left="650" Canvas.Top="401"/>
 
 
         </Canvas>

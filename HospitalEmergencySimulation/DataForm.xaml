@@ -6,26 +6,28 @@
         xmlns:local="clr-namespace:HospitalEmergencySimulation"
         mc:Ignorable="d"
         Title="DataForm" Height="450" Width="800">
-    <Grid>
+    <Grid Background="#B0DEFD">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="11*"/>
             <ColumnDefinition Width="21*"/>
         </Grid.ColumnDefinitions>
-        <Button Content="Button" HorizontalAlignment="Left" Height="37" Margin="197,213,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="getParameters"/>
-        <TextBox Name="minimumAttentionTimeHighPriority" HorizontalAlignment="Left" Margin="144,58,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" PreviewTextInput="TextBox_PreviewTextInput"/>
-        <TextBox Name="maximumAttentionTimeHighPriority" HorizontalAlignment="Left" Margin="141,122,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" PreviewTextInput="TextBox_PreviewTextInput"/>
-        <TextBox Name="minimumAttentionTimeLowPriority" HorizontalAlignment="Left" Margin="152,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewTextInput="TextBox_PreviewTextInput"/>
-        <TextBox Name="maximumAttentionTimeLowPriority" HorizontalAlignment="Left" Margin="145,173,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" PreviewTextInput="TextBox_PreviewTextInput"/>
-        <TextBox Name="lambdaArrivalHighPrority" HorizontalAlignment="Left" Margin="153,298,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" PreviewTextInput="TextBox_PreviewTextInput"/>
-        <TextBox Name="lambdaArrivalLowPrority" HorizontalAlignment="Left" Margin="154,350,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" PreviewTextInput="TextBox_PreviewTextInput"/>
-        <TextBox Name="numberArrivalIntervals" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="156,402,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" PreviewTextInput="TextBox_PreviewTextInput"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="146,32,0,0" VerticalAlignment="Top" />
-        <Label  Content="Label" HorizontalAlignment="Left" Margin="143,99,0,0" VerticalAlignment="Top" />
-        <Label  Content="Label" HorizontalAlignment="Left" Margin="144,149,0,0" VerticalAlignment="Top"/>
-        <Label  Content="Label" HorizontalAlignment="Left" Margin="147,208,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.658,0.284" />
-        <Label  Content="Label" HorizontalAlignment="Left" Margin="151,277,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.335" />
-        <Label  Content="Label" HorizontalAlignment="Left" Margin="154,329,0,0" VerticalAlignment="Top"/>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="155,372,0,0" VerticalAlignment="Top"/>
+        <Button HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#CAF4FF" Content="Registrar &#xD;&#xA;Parámetros" HorizontalAlignment="Left" Height="37" Margin="395,346,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="getParameters" FontWeight="Bold" />
+        <TextBox Background="#DAF4FF" Name="minimumAttentionTimeHighPriority" HorizontalAlignment="Left" Margin="20,119,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="220" PreviewTextInput="TextBox_PreviewTextInput" Height="24"/>
+        <TextBox Background="#DAF4FF" Name="maximumAttentionTimeHighPriority" HorizontalAlignment="Left" Margin="20,196,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="220" PreviewTextInput="TextBox_PreviewTextInput" Height="24"/>
+        <TextBox Background="#DAF4FF" Name="minimumAttentionTimeLowPriority" HorizontalAlignment="Left" Margin="20,352,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" PreviewTextInput="TextBox_PreviewTextInput" RenderTransformOrigin="0.392,0.837" Height="24"/>
+        <TextBox Background="#DAF4FF" Name="maximumAttentionTimeLowPriority" HorizontalAlignment="Left" Margin="20,268,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="220" PreviewTextInput="TextBox_PreviewTextInput" Height="24"/>
+        <TextBox Background="#DAF4FF" Name="lambdaArrivalHighPrority" HorizontalAlignment="Left" Margin="85,120,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="220" PreviewTextInput="TextBox_PreviewTextInput" Grid.Column="1" Height="24"/>
+        <TextBox Background="#DAF4FF" Name="lambdaArrivalLowPrority" HorizontalAlignment="Left" Margin="85,196,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="220" PreviewTextInput="TextBox_PreviewTextInput" Grid.Column="1" Height="24"/>
+        <TextBox Background="#DAF4FF" Name="numberArrivalIntervals" HorizontalAlignment="Left" Margin="85,268,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="220" PreviewTextInput="TextBox_PreviewTextInput" Grid.Column="1" Height="24"/>
+        <Label Content="Tiempo de atención mínima para&#xD;&#xA;los pacientes de alta prioridad" HorizontalAlignment="Left" Margin="15,74,0,0" VerticalAlignment="Top" Width="219" />
+        <Label  Content="Tiempo de atención máxima para los &#xD;&#xA;pacientes de alta prioridad" HorizontalAlignment="Left" Margin="15,149,0,0" VerticalAlignment="Top" Width="242" />
+        <Label  Content="Tiempo de atención mínima para los &#xD;&#xA;pacientes de baja prioridad" HorizontalAlignment="Left" Margin="15,222,0,0" VerticalAlignment="Top"/>
+        <Label  Content="Tiempo de atención máxima para los &#xD;&#xA;pacientes de baja prioridad" HorizontalAlignment="Left" Margin="14,304,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.658,0.284" />
+        <Label  Content="Lambda para la tasa de llegadas de los &#xD;&#xA;pacientes con prioridad alta" HorizontalAlignment="Left" Margin="78,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.368,0.335" Grid.Column="1" />
+        <Label  Content="Lambda para los tiempos entre llegadas&#xD;&#xA;de los pacientes con prioridad alta" HorizontalAlignment="Left" Margin="79,150,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label Content="Cantidad de unidades de tiempo en las que &#xD;&#xA;se permite recibir pacientes  " HorizontalAlignment="Left" Margin="80,221,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label Content="PARÁMETROS TIEMPOS DE SERVICIO" HorizontalAlignment="Left" Margin="24,34,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Grid.Column="1" Content="PARÁMETROS TIEMPOS DE LLEGADAS" HorizontalAlignment="Left" Margin="85,34,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
     </Grid>
 </Window>
