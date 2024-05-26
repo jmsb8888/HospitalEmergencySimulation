@@ -17,11 +17,10 @@
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Tiempo" Binding="{Binding TimeSimulation}" Width="*"/>
-                <DataGridTextColumn Header="IdDoctor" Binding="{Binding IdDoctor, StringFormat={}{0:F5}}" Width="*" />
-                <DataGridTextColumn Header="ocupado" Binding="{Binding IsOccupied, StringFormat={}{0:F5}}" Width="*"/>
-                <DataGridTextColumn Header="Tiempo" Binding="{Binding Time, StringFormat={}{0:F5}}" Width="*"/>
-                <DataGridTextColumn Header="Idpaciente" Binding="{Binding IdPatient, StringFormat={}{0:F5}}" Width="*"/>
-            </DataGrid.Columns>
+                <DataGridTextColumn Header="IdDoctor" Binding="{Binding IdDoctor}" Width="*" />
+                <DataGridTextColumn Header="ocupado" Binding="{Binding IsOccupied}" Width="*"/>
+                 <DataGridTextColumn Header="Idpaciente" Binding="{Binding IdPatient}" Width="*"/>
+                </DataGrid.Columns>
         </DataGrid>
         <DataGrid Background="#ede4d3" Grid.Column="1" Grid.Row="5" x:Name="ResultsPatient" AutoGenerateColumns="False" Margin="10,10,10,10" Width="auto" Height="Auto"
                     IsReadOnly="True"  FontSize="18" ScrollViewer.CanContentScroll="True" >
@@ -36,15 +35,14 @@
                     <DataGridTextColumn Header="Prioridad" Binding="{Binding Priority}" Width="*"/>
                     <DataGridTextColumn Header="IdDoctor" Binding="{Binding IdDoctor}" Width="*" />
                     <DataGridTextColumn Header="Atendido" Binding="{Binding IsAttended}" Width="*"/>
-                <DataGridTextColumn Header="Tiempo Servicio" Binding="{Binding ServiceTime}" Width="*"/>
-                <DataGridTextColumn Header="Tiempo Faltante" Binding="{Binding MissingServiceTime}" Width="*"/>
-                <DataGridTextColumn Header="Hora Llegada" Binding="{Binding TimeOfArrival}" Width="*"/>
-                <DataGridTextColumn Header="Tiempo de espera" Binding="{Binding TimeWait}" Width="*"/>
-                <DataGridTextColumn Header="Hora Salida" Binding="{Binding TimeOfExit}" Width="*"/>
+                    <DataGridTextColumn Header="Tiempo Servicio" Binding="{Binding ServiceTime, StringFormat={}{0:F5}}" Width="*"/>
+                    <DataGridTextColumn Header="Tiempo Faltante" Binding="{Binding MissingServiceTime, StringFormat={}{0:F5}}" Width="*"/>
+                    <DataGridTextColumn Header="Hora Llegada" Binding="{Binding TimeOfArrival, StringFormat={}{0:F5}}" Width="*"/>
+                    <DataGridTextColumn Header="Tiempo de espera" Binding="{Binding TimeWait, StringFormat={}{0:F5}}" Width="*"/>
+                    <DataGridTextColumn Header="Hora Salida" Binding="{Binding TimeOfExit, StringFormat={}{0:F5}}" Width="*"/>
                 <DataGridTextColumn Header="Finalizado" Binding="{Binding FinishedAttended}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-            <Label Content="Label" Name="dau"/>
 
         </StackPanel>
     </ScrollViewer>

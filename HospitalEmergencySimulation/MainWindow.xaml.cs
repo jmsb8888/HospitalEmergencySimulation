@@ -155,12 +155,11 @@ namespace HospitalEmergencySimulation
         {
             while (true)
             {
-                myLabe.Content = "hay tiempo " + Quantity.Count;
-                numerbucle.Content = "Está en número " + count;
+                //myLabe.Content = Quantity.Count;
+                numerbucle.Content = count;
                 loadDataForTime(count);
                 QuantityPatientientsHigh = patientsIdHigh.Count;
                 QuantityPatientientsLow = patientsIdLow.Count;
-                myLabel.Content = "Hay Alta " + formatPatientsHighPriority.Count + " Hay Baja " + formatPatientsLowPriorty.Count;
                 await ExecuteSimulationStep(QuantityPatientientsHigh, QuantityPatientientsLow);
                 count++;
                 if (count > Quantity.Count)
@@ -294,7 +293,7 @@ namespace HospitalEmergencySimulation
                         if (isChanged)
                         {
                             MoveRow();
-                            myLabe.Content = $"Paciente movido, Id: {patient.IdPatient}, Prioridad: {patient.Priority}";
+                           // myLabe.Content = $"Paciente movido, Id: {patient.IdPatient}, Prioridad: {patient.Priority}";
                             await Task.Delay(TimeSpan.FromSeconds(2));
                             break; 
                         }
@@ -389,7 +388,29 @@ namespace HospitalEmergencySimulation
 
 
 
+        public void CreatePatient(double seconds)
+        {
 
+
+            if (timer == null)
+            {
+                timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromSeconds(seconds);
+                if (patientsIdHigh.Count > 0)
+                {
+                    timer.Tick += Timer_Tick;
+                }
+                else if (patientsIdLow.Count > 0)
+                {
+                    timer.Tick += Timer_Low_prority;
+                }
+            }
+
+            // Inicia el temporizador
+            timer.Start();
+        }
+
+        /*
         public void CreatePatient(double seconds)
         {
             if (timer == null)
@@ -401,7 +422,7 @@ namespace HospitalEmergencySimulation
             }
             timer.Start();
         }
-
+        */
         private async void StartService()
         {
             List<FormatPatient> orderedPatients = formatPatienttAll
@@ -411,7 +432,7 @@ namespace HospitalEmergencySimulation
             int coundf = 0;
             foreach (FormatPatient patient in orderedPatients)
             {
-                myLabe.Content = "entro deberia mover " + 44;
+               // myLabe.Content = "entro deberia mover " + 44;
                 if (!patient.IsAttended)
                 {
                     foreach (KeyValuePair<int, FormatServers> item in servers)
@@ -430,7 +451,7 @@ namespace HospitalEmergencySimulation
                         {
                             countLow++;
                             coundf++;
-                            myLabe.Content = "entro deberia mover " + coundf;
+                           // myLabe.Content = "entro deberia mover " + coundf;
                             this.IsMovementLow = true;
                             attend("LowPriority", item.Value.Coordinate);
                             item.Value.IdPatient = patient.IdPatient;
@@ -574,7 +595,7 @@ namespace HospitalEmergencySimulation
                         {
                             double xc = Canvas.GetLeft(lastImage);
                             double yc = Canvas.GetTop(image);
-                            myLabel.Content = "Posicion X: " + xc + " prueba: " + isFirst + " yy: " + yc;
+                            //myLabel.Content = "Posicion X: " + xc + " prueba: " + isFirst + " yy: " + yc;
                         }
                     }
                     positionFinal = isFirst ? Canvas.GetLeft(lastImage) - 30 : 691;
@@ -729,7 +750,7 @@ namespace HospitalEmergencySimulation
                     positionFinal = isFirst ? Canvas.GetLeft(lastImageLowPriority) - 30 : 749;
                     if (positionFinal > 100)
                     {
-                        myLabel.Content = "Posvicion X: " + positionFinal + " prueba: " + isFirst + " yy: ";
+                        //myLabel.Content = "Posvicion X: " + positionFinal + " prueba: " + isFirst + " yy: ";
                         DoubleAnimation moverX = new DoubleAnimation
                         {
                             From = x,
@@ -766,15 +787,14 @@ namespace HospitalEmergencySimulation
                                 {
                                     double xc = Canvas.GetLeft(lastImageLowPriority);
                                     double yc = Canvas.GetTop(image);
-                                    myLabel.Content = "Posicionc X: " + xc + " prueba: " + isFirst + " yy: " + yc;
+                                    //myLabel.Content = "Posicionc X: " + xc + " prueba: " + isFirst + " yy: " + yc;
                                 }
                             }
-                            myLabel.Content = "Posicion Y: " + positionFinal + " prueba: " + isFirst + " yy: ";
                             positionFinal = isFirst ? Canvas.GetTop(lastImageLowPriority) + 30 : 177;
                             if (positionFinal <= 230)
                             {
 
-                                myLabel.Content = "Posicion Y: " + positionFinal + " prueba: " + isFirst + " yy: ";
+                               // myLabel.Content = "Posicion Y: " + positionFinal + " prueba: " + isFirst + " yy: ";
                                 DoubleAnimation moverYY = new DoubleAnimation
                                 {
                                     To = positionFinal,
@@ -791,7 +811,7 @@ namespace HospitalEmergencySimulation
                     }
                     else if (positionFinal < 100)
                     {
-                        myLabel.Content = "Possaicion Y: " + positionFinal + " prueba: " + isFirst + " yy: ";
+                        //myLabel.Content = "Possaicion Y: " + positionFinal + " prueba: " + isFirst + " yy: ";
                         positionInitialLowPriority += 30;
                     }
                 };
@@ -806,7 +826,7 @@ namespace HospitalEmergencySimulation
 
         public void ViewTables(object sender, RoutedEventArgs e)
         {
-            myLabe.Content = "envio " + resultsForTime.Count;
+           // myLabe.Content = "envio " + resultsForTime.Count;
             ViewTables viewTables = new ViewTables(resultsForTime);
             viewTables.Show();
         }

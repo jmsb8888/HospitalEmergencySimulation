@@ -255,7 +255,8 @@ namespace HospitalEmergencySimulation.Model
                         if (priority == "High")
                         {
                             patient.FinishedAttended = true;
-                            patient.TimeWait = patient.TimeOfExit - (patient.TimeOfArrival + patient.ServiceTime);
+                            double timeW = (patient.TimeOfExit - (patient.TimeOfArrival + patient.ServiceTime)<0)? 0 : patient.TimeOfExit - (patient.TimeOfArrival + patient.ServiceTime);
+                            patient.TimeWait = timeW;
                             PatientsTreatedHighPriority.Add(patient);
                             Patient patientClone = patient.Clone();
                             patientClone.MissingServiceTime = 0;
@@ -269,7 +270,8 @@ namespace HospitalEmergencySimulation.Model
                         else
                         {
                             patient.FinishedAttended = true;
-                            patient.TimeWait = patient.TimeOfExit - (patient.TimeOfArrival + patient.ServiceTime);
+                            double timeW = (patient.TimeOfExit - (patient.TimeOfArrival + patient.ServiceTime) < 0) ? 0 : patient.TimeOfExit - (patient.TimeOfArrival + patient.ServiceTime);
+                            patient.TimeWait = timeW;
                             PatientsTreatedLowPriority.Add(patient);
                             Patient patientClone = patient.Clone();
                             patientClone.MissingServiceTime = 0;

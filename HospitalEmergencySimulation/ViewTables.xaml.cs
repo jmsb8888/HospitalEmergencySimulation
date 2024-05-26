@@ -31,7 +31,7 @@ namespace HospitalEmergencySimulation
 
         public void InitSimulation()
         {
-            dau.Content = "hay "+ data.Count;
+            
             List<FormarDataDoctor> DataDoctor = new List<FormarDataDoctor>();
             List<FormatPatient> formatPatients = new List<FormatPatient>();
            ;
