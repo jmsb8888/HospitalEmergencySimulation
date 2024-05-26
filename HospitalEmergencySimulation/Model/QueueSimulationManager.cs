@@ -47,7 +47,7 @@ namespace HospitalEmergencySimulation.Model
             this.lambdaArrivalLowPrority = lambdaArrivalLowPrority;
             this.numberArrivalIntervals = numberArrivalIntervals;
             NumberOfPatients = 0;
-            TotalArrivalTime = 5;
+            TotalArrivalTime = numberArrivalIntervals;
             TimeTraveled = 0;
             CurrentSimulationTime = 0;
             createDoctors(3);
